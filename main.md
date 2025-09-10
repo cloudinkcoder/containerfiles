@@ -13,8 +13,7 @@
 - ubuntu
   - latest
 - debian。比较常见版本的软件生态排序。最新的软件 -> 稳定的软件: unstable -> testing -> stable
-  - latest: 最新的发行版本
-  - stable: 最新的稳定版本
+  - latest, stable: 当前最新发布的稳定版本
   - testing: 最新的测试版本
   - unstable: 最新的不稳定版本
 - python
