@@ -15,7 +15,8 @@ COPY texlive.profile .
 ARG TL_VERSION=2025 ARCH_OS=x86_64-linux
 # Office source repo url: http://ctan.net
 # 自适应镜像源：http://mirror.ctan.org
-# Aliyun mirror url: https://mirrors.aliyun.com/CTAN
+# ========== Other mirror ==========
+# Aliyun: https://mirrors.aliyun.com/CTAN
 ARG TL_URL=http://mirror.ctan.org
 
 # Download and Install TeXLive
