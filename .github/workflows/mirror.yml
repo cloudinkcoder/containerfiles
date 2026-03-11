@@ -1,0 +1,78 @@
+name: Mirror
+
+on:
+  workflow_dispatch:
+    inputs:
+      # gitlab:
+      #   description: "Push GitLab"
+      #   type: boolean
+      #   required: true
+      #   default: false
+      github:
+        description: "Push GitHub?"
+        type: boolean
+        required: true
+        default: false
+      # quay:
+      #   description: "Push quay.io?"
+      #   type: boolean
+      #   required: true
+      #   default: false
+  schedule:
+    # 每月3号2:37分开始执行（北京时间+8）
+    - cron: "37 2 3 * *"
+
+jobs:
+  build:
+    if: >-
+      github.event.inputs ||
+      github.event.schedule
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Pull docker images
+        run: |
+          docker pull chanzz0/texlive
+          docker pull chanzz0/nvim
+      # - name: Login to GitLab Container Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: registry.gitlab.com
+      #     username: aaron-git
+      #     password: ${{ secrets.GITLAB_TOKEN }}
+      # - name: GitLab
+      #   if: inputs.gitlab || github.event.schedule
+      #   run: |
+      #     gitlab_url="registry.gitlab.com"
+      #     docker tag chanzz0/texlive $gitlab_url/us-git/docker/texlive
+      #     docker push $gitlab_url/us-git/docker/texlive
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: $GITHUB_REPOSITORY_OWNER
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: GitHub
+        if: inputs.github || github.event.schedule
+        run: |
+          github_url="ghcr.io"
+          # TeXLive
+          docker tag chanzz0/texlive $github_url/$GITHUB_REPOSITORY_OWNER/texlive:latest
+          docker push $github_url/$GITHUB_REPOSITORY_OWNER/texlive:latest
+          # Neovim
+          docker tag chanzz0/nvim $github_url/$GITHUB_REPOSITORY_OWNER/nvim:latest
+          docker push $github_url/$GITHUB_REPOSITORY_OWNER/nvim:latest
+      # - name: Login to Red Hat Container Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: quay.io
+      #     username: chanzz
+      #     password: ${{ secrets.QUAY_TOKEN }}
+      # - name: Quay.io
+      #   if: inputs.quay || github.event.schedule
+      #   run: |
+      #     quay_url="quay.io"
+      #     # TeXLive
+      #     docker tag chanzz0/texlive $quay_url/chanzz/texlive:latest
+      #     docker push $quay_url/chanzz/texlive:latest
