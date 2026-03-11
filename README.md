@@ -6,6 +6,8 @@ You can use command `docker pull <username>/<image_name>` to pull the latest ver
 
 ## TeX Live
 
+Notes: 不再维护, 建议直接拉取官方镜像(每周保持更新)来使用. 命令如下: `docker pull texlive/texlive:latest`
+
 [image](https://hub.docker.com/r/chanzz0/texlive)
 
 - Auto updated every Monday.

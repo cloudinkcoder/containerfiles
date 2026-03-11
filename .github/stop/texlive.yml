@@ -2,14 +2,14 @@ name: TeXLive
 
 on:
   workflow_dispatch:
-  schedule:
+  # schedule:
     # 每月1号的0:37分执行 (北京时间+8)
-    - cron: "37 0 1 * *"
-  push:
-    branches: [main]
-    paths:
-      - 'texlive/Containerfile'
-      - 'texlive/texlive.profile'
+    # - cron: "37 0 1 * *"
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'texlive/Containerfile'
+  #     - 'texlive/texlive.profile'
 
 jobs:
   build:
